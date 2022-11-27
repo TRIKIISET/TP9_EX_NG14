@@ -1,37 +1,54 @@
 <div class="container">
     <h3>Ajout d'un Employé</h3>
-    <form>
+    <form [formGroup]="employeForm" (ngSubmit)="ajouterEmploye()">
         <div>
             <label> Matricule de l'employé </label>
-            <input class="form-control" type="number" >
+            <input class="form-control" type="number" formControlName="matricule">
+        </div>
+        <div *ngIf="matricule?.invalid && matricule?.touched" class="alert alert-warning">
+            Le matricule n'est pas valide
         </div>
         <div>
             <label>Nom de l'employé</label>
-            <input class="form-control" type="text" >
+            <input class="form-control" type="text" formControlName="nom">
+        </div>
+        <div *ngIf="nom?.errors?.['required'] && nom?.touched" class="alert alert-warning">
+            Le nom est un champ Obligatoire
+        </div>
+        <div *ngIf="nom?.errors?.['pattern'] && nom?.touched" class="alert alert-warning">
+            Le nom doit être formé d'au moins 2 mots commençant chacun par une majuscule
         </div>
         <div>
             <label>Date d'embauche</label>
-            <input class="form-control" type="date">
+            <input class="form-control" type="date" formControlName="dateEmbauche">
         </div>
         <h5>Liste des diplômes de l'employé</h5>
-        <!-- <div>
-            <div>
-                <strong> Diplôme n° </strong>
-                <div>
+        <div formArrayName="diplomes">
+            <div *ngFor="let d of lesDiplomes.controls; index as i">
+                <strong> Diplôme n° {{i}}</strong>
+                <div [formGroupName]="i">
                     <label>Intitulé Diplôme :</label>
                     <input type="text" formControlName="nomDiplome">
+                    <div *ngIf="isDiplomNameValid(i)" class="alert alert-info">
+                        Le diplôme doit avoir au moins 3 caractères
+                    </div>
 
                     <label>Année :</label>
                     <input type="number" formControlName="annee">
+                    <div *ngIf="isYearValid(i)" class="alert alert-info">
+                        L'année doit être comprise entre 1960 et 2022
+                    </div>
                 </div>
             </div>
-        </div> -->
-        <input type="button" value="Ajouter un Diplôme" class="btn btn-secondary btn-sm" > <br>
+        </div>
+        <input type="button" (click)="ajouterDiplome()" value="Ajouter un Diplôme" class="btn btn-secondary btn-sm" > <br>
 
-        <input type="submit" class="btn btn-success" value="Ajouter">
-        <input type="button" class="btn btn-warning" value="Vider">
+        <input type="submit" [disabled]="employeForm.invalid" class="btn btn-success" value="Ajouter">
+        <input type="button" (click)="onVider()" class="btn btn-warning" value="Vider">
     </form>
 
     <h3>Liste des employés</h3>
+
+    {{lesEmployes |json}}
 
 </div>

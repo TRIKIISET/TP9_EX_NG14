@@ -15,6 +15,22 @@
         }
       ],
       "id": 1
+    },
+    {
+      "matricule": 98765,
+      "nom": "Majdi Sayari",
+      "dateEmbauche": "2022-11-10",
+      "diplomes": [
+        {
+          "nomDiplome": "Bac",
+          "annee": 1999
+        },
+        {
+          "nomDiplome": "Licence",
+          "annee": 2022
+        }
+      ],
+      "id": 2
     }
   ]
 }
